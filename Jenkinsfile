@@ -12,7 +12,7 @@ pipeline{
 
         stage('Build Image'){
             steps{
-                sh 'docker build -t=vinsdocker/selenium .'
+                sh 'docker build -t=diyanich/selenium .'
             }
         }
 
@@ -24,7 +24,7 @@ pipeline{
             steps{
                 // There might be a warning.
                 sh 'docker login -u ${DOCKER_HUB_USR} -p ${DOCKER_HUB_PSW}'
-                sh 'docker push vinsdocker/selenium'
+                sh 'docker push diyanich/selenium'
             }
         }
 
