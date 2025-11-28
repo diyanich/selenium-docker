@@ -24,7 +24,7 @@ pipeline{
             sh "echo ${DOCKER_HUB_PSW} | docker login -u ${DOCKER_HUB_USR} --password-stdin"
             sh "docker push diyanich/selenium:latest"
             sh "docker tag diyanich/selenium:latest diyanich/selenium:${env.BUILD_NUMBER}"
-            sh "docker push diyanich/selenium:latest diyanich/selenium:${env.BUILD_NUMBER}"
+            sh "docker push diyanich/selenium:${env.BUILD_NUMBER}"
 
             }
         }
