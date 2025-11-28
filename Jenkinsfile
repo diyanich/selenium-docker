@@ -1,34 +1,35 @@
-pipeline{
-
-    agent any
-
-    stages{
-
-        stage('Build Jar'){
-            steps{
-                sh "mvn clean package -DskipTests"
+pipeline {
+    agent none
+    stages {
+        stage('Build Jar') {
+            agent {
+                docker {
+                    image 'maven:3.9.3-eclipse-temurin-17-focal'
+                    args '-u root -v /tmp/m2:/root/.m2'
+                }
+            }
+            steps {
+                sh 'mvn clean package -DskipTests'
             }
         }
-
-        stage('Build Image'){
-            steps{
-             sh "docker build -t=diyanich/selenium ."
+        stage('Build Image') {
+            steps {
+                script {
+                    app = docker.build('diyanich/selenium')
+                }
             }
         }
 
         stage('Push Image'){
-            environment{
-            DOCKER_HUB = credentials('dockerhub-credentials')
-            }
             steps{
-            sh "echo ${DOCKER_HUB_PSW} | docker login -u ${DOCKER_HUB_USR} --password-stdin"
-            sh "docker push diyanich/selenium"
+                script {
+                    // registry url is blank for dockerhub
+                    docker.withRegistry('', 'dockerhub-credentials') {
+                        app.push("latest")
+                    }
+                }
             }
         }
-    }
-    post{
-        always{
-        sh "docker logout"
-        }
+
     }
 }
