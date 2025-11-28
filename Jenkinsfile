@@ -4,7 +4,7 @@ pipeline {
         stage('Build Jar') {
             agent {
                 docker {
-                    image 'maven:3.9.3-eclipse-temurin-25-focal'
+                    image 'maven:3.9.11-eclipse-temurin-25-noble'
                     args '-u root -v /tmp/m2:/root/.m2'
                 }
             }
