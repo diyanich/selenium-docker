@@ -18,10 +18,10 @@ pipeline{
 
         stage('Push Image'){
             environment{
-            DOCKER_HUB = credentials('dockerhub-creds')
+            DOCKER_HUB = credentials('dockerhub-credentials')
             }
             steps{
-            sh 'docker login -u ${DOCKER_HUB_USR} -p ${DOCKER_HUB_PSW}'
+            sh 'echo ${DOCKER_HUB_PSW} | docker login -u ${DOCKER_HUB_USR} -p --password-std'
             sh "docker push diyanich/selenium"
             }
         }
