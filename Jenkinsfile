@@ -18,7 +18,7 @@ pipeline{
 
         stage('Push Image'){
             steps{
-            sh "docker push -t=diyanich/selenium"
+            sh "docker push diyanich/selenium"
             }
         }
     }
